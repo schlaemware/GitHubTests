@@ -11,6 +11,8 @@ on:
 
 jobs:
   build:
+    name: Build
+    
     strategy:
       matrix:
         configuration: [ "Release" ]
@@ -34,13 +36,11 @@ jobs:
       run: dotnet restore $env:SolutionName
       
     - name: Build
-      run: dotnet build $env:SolutionName --nologo --no-restore -c $env:Configuration -a $env:Platform
+      run: dotnet build $env:SolutionName -c $env:Configuration --nologo --no-restore
       env:
         Configuration: ${{ matrix.configuration }}
-        Platform: ${{ matrix.platform }}
       
     - name: Test
-      run: dotnet test $env:SolutionName --nologo --no-build --verbosity normal -c $env:Configuration -a $env:Platform
+      run: dotnet test $env:SolutionName -c $env:Configuration --nologo --no-build --verbosity normal
       env:
         Configuration: ${{ matrix.configuration }}
-        Platform: ${{ matrix.platform }}
