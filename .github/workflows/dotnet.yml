@@ -37,7 +37,8 @@ jobs:
     runs-on: windows-latest
     
     steps:
-    - run: dotnet build $env:SOLUTION_PATH -c Release --nologo --no-restore
+    - name: Build
+      run: dotnet build $env:SOLUTION_PATH -c Release --nologo --no-restore
       
   test:
     name: Test
@@ -46,4 +47,5 @@ jobs:
     runs-on: windows-latest
       
     steps:
-    - run: dotnet test $env:SOLUTION_PATH -c Release --nologo --no-build --verbosity normal
+    - name: Test
+      run: dotnet test $env:SOLUTION_PATH -c Release --nologo --no-build --verbosity normal
