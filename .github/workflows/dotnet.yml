@@ -12,7 +12,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -21,8 +21,8 @@ jobs:
       with:
         dotnet-version: 6.x
     - name: Restore dependencies
-      run: dotnet restore Solution/ /p:EnableWindowsTargeting=true
+      run: dotnet restore Solution/
     - name: Build
-      run: dotnet build Solution/ --no-restore /p:EnableWindowsTargeting=true
+      run: dotnet build Solution/ --no-restore
     - name: Test
       run: dotnet test Solution/ --no-build --verbosity normal
