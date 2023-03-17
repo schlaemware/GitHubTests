@@ -8,13 +8,13 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-    
-env:
-  SOLUTION_PATH: "Solution/TestSolution.sln"
 
+env:
+  SolutionName: "Solution/TestSolution.sln"
+      
 jobs:
-  setup:
-    name: Setup
+  build:
+    name: Build .NET
 
     runs-on: windows-latest
 
@@ -28,27 +28,10 @@ jobs:
         dotnet-version: 6.x
         
     - name: Restore dependencies
-      run: dotnet restore $env:SOLUTION_PATH
+      run: dotnet restore $env:SolutionName
       
-  build:
-    name: Build
-    needs: setup
-    strategy:
-      matrix:
-        project: [ "Solution/TestApp/", "Solution/WpfTestApp" ]
-
-    runs-on: windows-latest
-    
-    steps:
     - name: Build
-      run: dotnet build ${{ matrix.project }} -c Release --nologo --no-restore
+      run: dotnet build $env:SolutionName -c Release --nologo --no-restore
       
-  test:
-    name: Test
-    needs: build
-
-    runs-on: windows-latest
-      
-    steps:
     - name: Test
-      run: dotnet test $env:SOLUTION_PATH -c Release --nologo --no-build --verbosity normal
+      run: dotnet test $env:SolutionName -c Release --nologo --no-build --verbosity normal
