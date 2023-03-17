@@ -34,7 +34,13 @@ jobs:
       run: dotnet restore $env:SolutionName
       
     - name: Build
-      run: dotnet build $env:SolutionName --nologo --no-restore
+      run: dotnet build $env:SolutionName --nologo --no-restore -c $env:Configuration -a $env:Platform
+      env:
+        Configuration: ${{ matrix.configuration }}
+        Platform: ${{ matrix.platform }}
       
     - name: Test
-      run: dotnet test $env:SolutionName --nologo --no-build --verbosity normal
+      run: dotnet test $env:SolutionName --nologo --no-build --verbosity normal -c $env:Configuration -a $env:Platform
+      env:
+        Configuration: ${{ matrix.configuration }}
+        Platform: ${{ matrix.platform }}
