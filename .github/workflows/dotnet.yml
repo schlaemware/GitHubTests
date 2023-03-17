@@ -8,20 +8,15 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+    
+env:
+  SOLUTION_PATH: "Solution/TestSolution.sln"
 
 jobs:
   setup:
     name: Setup
-    
-    strategy:
-      matrix:
-        configuration: [ "Release" ]
-        platform: [ "x86", "x64" ]
 
     runs-on: windows-latest
-    
-    env:
-      SolutionName: "Solution/TestSolution.sln"
 
     steps:
     - name: Checkout
@@ -38,37 +33,17 @@ jobs:
   build:
     name: Build
     needs: setup
-    
-    strategy:
-      matrix:
-        configuration: [ "Release" ]
-        platform: [ "x86", "x64" ]
 
     runs-on: windows-latest
     
-    env:
-      SolutionName: "Solution/TestSolution.sln"
-    
     steps:
     - run: dotnet build $env:SolutionName -c $env:Configuration --nologo --no-restore
-      env:
-        Configuration: ${{ matrix.configuration }}
       
   test:
     name: Test
     needs: build
-    
-    strategy:
-      matrix:
-        configuration: [ "Release" ]
-        platform: [ "x86", "x64" ]
 
     runs-on: windows-latest
-    
-    env:
-      SolutionName: "Solution/TestSolution.sln"
       
     steps:
     - run: dotnet test $env:SolutionName -c $env:Configuration --nologo --no-build --verbosity normal
-      env:
-        Configuration: ${{ matrix.configuration }}
