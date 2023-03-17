@@ -28,7 +28,7 @@ jobs:
         dotnet-version: 6.x
         
     - name: Restore dependencies
-      run: dotnet restore $env:SolutionName
+      run: dotnet restore $env:SOLUTION_PATH
       
   build:
     name: Build
@@ -37,7 +37,7 @@ jobs:
     runs-on: windows-latest
     
     steps:
-    - run: dotnet build $env:SolutionName -c $env:Configuration --nologo --no-restore
+    - run: dotnet build $env:SOLUTION_PATH -c Release --nologo --no-restore
       
   test:
     name: Test
@@ -46,4 +46,4 @@ jobs:
     runs-on: windows-latest
       
     steps:
-    - run: dotnet test $env:SolutionName -c $env:Configuration --nologo --no-build --verbosity normal
+    - run: dotnet test $env:SOLUTION_PATH -c Release --nologo --no-build --verbosity normal
