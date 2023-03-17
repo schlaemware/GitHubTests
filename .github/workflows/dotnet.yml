@@ -10,8 +10,8 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
-    name: Build
+  setup:
+    name: Setup
     
     strategy:
       matrix:
@@ -35,12 +35,40 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore $env:SolutionName
       
-    - name: Build
-      run: dotnet build $env:SolutionName -c $env:Configuration --nologo --no-restore
+  build:
+    name: Build
+    needs: setup
+    
+    strategy:
+      matrix:
+        configuration: [ "Release" ]
+        platform: [ "x86", "x64" ]
+
+    runs-on: windows-latest
+    
+    env:
+      SolutionName: "Solution/TestSolution.sln"
+    
+    steps:
+    - run: dotnet build $env:SolutionName -c $env:Configuration --nologo --no-restore
       env:
         Configuration: ${{ matrix.configuration }}
       
-    - name: Test
-      run: dotnet test $env:SolutionName -c $env:Configuration --nologo --no-build --verbosity normal
+  test:
+    name: Test
+    needs: build
+    
+    strategy:
+      matrix:
+        configuration: [ "Release" ]
+        platform: [ "x86", "x64" ]
+
+    runs-on: windows-latest
+    
+    env:
+      SolutionName: "Solution/TestSolution.sln"
+      
+    steps:
+    - run: dotnet test $env:SolutionName -c $env:Configuration --nologo --no-build --verbosity normal
       env:
         Configuration: ${{ matrix.configuration }}
