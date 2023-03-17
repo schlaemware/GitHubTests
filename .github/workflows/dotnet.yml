@@ -21,8 +21,8 @@ jobs:
       with:
         dotnet-version: 6.x
     - name: Restore dependencies
-      run: dotnet restore Solution/
+      run: dotnet restore Solution/ /p:EnableWindowsTargeting=true
     - name: Build
-      run: dotnet build Solution/ --no-restore
+      run: dotnet build Solution/ --no-restore /p:EnableWindowsTargeting=true
     - name: Test
       run: dotnet test Solution/ --no-build --verbosity normal
