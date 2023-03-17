@@ -33,12 +33,15 @@ jobs:
   build:
     name: Build
     needs: setup
+    strategy:
+      matrix:
+        project: [ "Solution/TestApp/", "Solution/WpfTestApp" ]
 
     runs-on: windows-latest
     
     steps:
     - name: Build
-      run: dotnet build $env:SOLUTION_PATH -c Release --nologo --no-restore
+      run: dotnet build ${{ matrix.project }} -c Release --nologo --no-restore
       
   test:
     name: Test
