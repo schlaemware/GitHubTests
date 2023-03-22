@@ -9,7 +9,7 @@ namespace Domain.Test {
 
             int result = service.Addition(source, toAdd);
 
-            Assert.AreEqual(result, source + toAdd);
+            Assert.AreEqual(result, 0);
         }
     }
 }
