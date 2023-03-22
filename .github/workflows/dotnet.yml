@@ -28,10 +28,16 @@ jobs:
         dotnet-version: 6.x
         
     - name: Restore dependencies
-      run: dotnet restore $env:SolutionName
+      run: dotnet restore Solution/*.sln
       
-    - name: Build
-      run: dotnet build $env:SolutionName -c Release --nologo --no-restore
+    - name: Build Console
+      run: dotnet build Solution/ConsoleTestApp/ConsoleTestApp.csproj -c Release --nologo --no-restore
+      
+    - name: Build WPF
+      run: dotnet build Solution/WpfTestApp/WpfTestApp.csproj -c Release --nologo --no-restore
+      
+    - name: Build WinUI 3
+      run: dotnet build Solution/TestApp/TestApp.csproj -c Release --nologo --no-restore
       
     - name: Test
-      run: dotnet test $env:SolutionName -c Release --nologo --no-build --verbosity normal
+      run: dotnet test Solution/*.sln -c Release --no-restore --nologo --verbosity normal
