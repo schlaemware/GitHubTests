@@ -15,7 +15,6 @@ env:
 jobs:
   build:
     name: Build .NET
-
     runs-on: windows-latest
 
     steps:
@@ -30,8 +29,21 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore $env:SolutionName
       
-    - name: Build
+    - name: Build Solution
       run: dotnet build $env:SolutionName -c Release --nologo --no-restore
       
-    - name: Test
+  test:
+    name: Test .NET
+    runs-on: windows-latest
+    
+    steps:
+    - name: Test Solution
       run: dotnet test $env:SolutionName -c Release --nologo --no-build --verbosity normal
+      
+  deploy:
+    name: Deploy .NET
+    runs-on: windows-latest
+    
+    steps:
+    - name: Production
+      run: echo 'Prouduction deployment...'
