@@ -22,11 +22,13 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.x
-        
-    - name: Download artifacts
-      uses: actions/download-artifact@v3
-      with:
-        name: Build
 
     - name: Test
-      run: dotnet test 'Build/*.Test.dll'
+      run: dotnet test ${{ inputs.solutionFile }} -c Release --nologo --results-directory Results --verbosity normal
+
+    - name: Upload Results
+      uses: actions/upload-artifact@v3.1.2
+      with:
+        name: 'Results'
+        path: './Results'
+        if-no-files-found: warn
