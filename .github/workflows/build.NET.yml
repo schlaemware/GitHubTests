@@ -27,12 +27,12 @@ jobs:
       run: dotnet restore ${{ inputs.solutionFile }}
       
     - name: Build
-      run: dotnet build ${{ inputs.solutionFile }} -c Release --nologo --no-restore
+      run: dotnet build ${{ inputs.solutionFile }} -c Release -o Build --nologo --no-restore
       
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.2
       with:
-        name: 'BuildArtifacts'
-        path: './BuildArtifacts'
+        name: 'Build'
+        path: './Build'
         if-no-files-found: error
         retention-days: 7
