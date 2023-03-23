@@ -28,12 +28,6 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ inputs.dotnetVersion }}
-        
-    - name: Restore
-      run: dotnet restore ${{ inputs.solutionFile }}
-      
-    - name: Build
-      run: dotnet build ${{ inputs.solutionFile }} -c ${{ inputs.configuration }} -o Build --no-restore
       
     - name: Test
-      run: dotnet test ${{ inputs.solutionFile }} -c ${{ inputs.configuration }} -l trx -v normal --no-build --no-restore
+      run: dotnet test ${{ inputs.solutionFile }} -c ${{ inputs.configuration }} -l trx -v normal
