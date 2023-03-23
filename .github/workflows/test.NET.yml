@@ -25,6 +25,8 @@ jobs:
         
     - name: Download artifacts
       uses: actions/download-artifact@v3
+      with:
+        name: Build
 
     - name: Test
-      run: dotnet test ${{ inputs.solutionFile }} -c Release --nologo --no-build --verbosity normal --results-directory Results
+      run: dotnet test Build/*.Test.dll --nologo --no-build --verbosity normal --results-directory Results
