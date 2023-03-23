@@ -1,0 +1,39 @@
+# This workflow
+name: Build & Test (.NET)
+
+on:
+  workflow_call:
+    inputs:
+      solutionFile:
+        required: true
+        type: string
+      dotnetVersion:
+        required: true
+        type: string
+      configuration:
+        required: true
+        type: string
+        default: Release
+
+jobs:
+  build:
+    name: Build (.NET)
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+            
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ inputs.dotnetVersion }}
+        
+    - name: Restore
+      run: dotnet restore ${{ inputs.solutionFile }}
+      
+    - name: Build
+      run: dotnet build ${{ inputs.solutionFile }} -c ${{ inputs.configuration }} -o Build --no-restore
+      
+    - name: Test
+      run: dotnet test ${{ inputs.solutionFile }} -c ${{ inputs.configuration }} -l trx -v normal --no-build --no-restore
