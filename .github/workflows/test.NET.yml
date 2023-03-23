@@ -5,13 +5,20 @@ name: Test .NET
 on:
   workflow_call:
     inputs:
+      dotnetVersion:
+        required: true
+        type: string
+      configuration:
+        required: true
+        type: string
+        default: "Release"
       solutionFile:
         required: true
         type: string
       
 jobs:
   test:
-    name: Test .NET
+    name: Test
     runs-on: windows-latest
 
     steps:
@@ -21,14 +28,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.x
+        dotnet-version: ${{ inputs.dotnetVersion }}
 
     - name: Test
-      run: dotnet test ${{ inputs.solutionFile }} -c Release --nologo --results-directory Results --verbosity normal
-
-    - name: Upload Results
-      uses: actions/upload-artifact@v3.1.2
-      with:
-        name: 'Results'
-        path: './Results'
-        if-no-files-found: warn
+      run: dotnet test ${{ inputs.solutionFile }} -c ${{ inputs.configuration }} -v normal --results-directory Results
