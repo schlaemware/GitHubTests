@@ -7,19 +7,19 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="74b8a56e-ae46-4b3f-9477-fc6adae2330b"
+    Name="a0a0c32a-549a-4c4b-b532-fe0ed3dd60c8"
     Publisher="CN=Schlæmware"
-    Version="0.0.1.0" />
+    Version="0.0.0.0" />
 
   <Properties>
-    <DisplayName>TestApp</DisplayName>
-    <PublisherDisplayName>Schlæmware</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
+    <DisplayName>TestAppWap</DisplayName>
+    <PublisherDisplayName>MichaelS</PublisherDisplayName>
+    <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 
   <Dependencies>
-    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
-    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.14393.0" MaxVersionTested="10.0.14393.0" />
   </Dependencies>
 
   <Resources>
@@ -31,19 +31,19 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="TestApp"
-        Description="TestApp"
+        DisplayName="TestAppWap"
+        Description="TestAppWap"
         BackgroundColor="transparent"
-        Square150x150Logo="Assets\Square150x150Logo.png"
-        Square44x44Logo="Assets\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        Square150x150Logo="Images\Square150x150Logo.png"
+        Square44x44Logo="Images\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
+        <uap:SplashScreen Image="Images\SplashScreen.png" />
       </uap:VisualElements>
     </Application>
   </Applications>
 
   <Capabilities>
+    <Capability Name="internetClient" />
     <rescap:Capability Name="runFullTrust" />
-    <Capability Name="internetClient"/>
   </Capabilities>
 </Package>

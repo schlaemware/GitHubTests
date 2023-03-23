@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Domain;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -23,7 +22,7 @@ using Windows.Foundation.Collections;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace TestApp {
+namespace PackagedTestApp {
   /// <summary>
   /// Provides application-specific behavior to supplement the default Application class.
   /// </summary>
@@ -34,11 +33,6 @@ namespace TestApp {
     /// </summary>
     public App() {
       this.InitializeComponent();
-
-      ExampleService service = new();
-      int result = service.Addition(5, 3);
-
-      System.Diagnostics.Debug.WriteLine("5 + 3 = " + result.ToString());
     }
 
     /// <summary>
