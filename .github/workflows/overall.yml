@@ -1,0 +1,34 @@
+# This workflow will build a .NET solution
+
+name: Overall .NET
+
+on:
+  push:
+    branches: [ "develop", "1-update-actions" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  SolutionFile: "Solution/TestSolution.sln"
+      
+jobs:
+  call-build-workflow:
+    name: Build
+    uses: ./.github/workflows/build.NET.yml
+    secrets: inherit
+    with:
+      solutionFile: ${{ env.SolutionFile }}
+
+  call-test-workflow:
+    needs: call-build-workflow
+    uses: ./.github/workflows/test.NET.yml
+    secrets: inherit
+    with:
+      solutionFile: ${{ env.SolutionFile }}
+
+  call-deploy-workflow:
+    needs: call-test-workflow
+    uses: ./.github/workflows/deploy.NET.yml
+    secrets: inherit
+    with:
+      solutionFile: ${{ env.SolutionFile }}

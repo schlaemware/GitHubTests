@@ -4,9 +4,13 @@ name: Test .NET
 
 on:
   workflow_call:
+    inputs:
+      solutionFile:
+        required: true
+        type: string
       
 jobs:
-  build:
+  test:
     name: Test .NET
     runs-on: windows-latest
 
@@ -20,4 +24,4 @@ jobs:
         dotnet-version: 6.x
 
     - name: Test
-      run: dotnet test $env:SolutionName -c Release --nologo --no-build --verbosity normal
+      run: dotnet test ${{ inputs.solutionFile }} -c Release --nologo --no-build --verbosity normal

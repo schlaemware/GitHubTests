@@ -4,12 +4,16 @@ name: Deploy .NET
 
 on:
   workflow_call:
+    inputs:
+      solutionFile:
+        required: true
+        type: string
       
 jobs:
-  work:
+  deploy:
     name: Deploy .NET
     runs-on: windows-latest
     
     steps:      
     - name: Deploy
-      run: echo 'Prouduction deployment...'
+      run: echo 'Prouduction deployment of ${{ inputs.solutionFile }}...'

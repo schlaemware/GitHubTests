@@ -4,6 +4,10 @@ name: Build .NET
 
 on:
   workflow_call:
+    inputs:
+      solutionFile:
+        required: true
+        type: string
       
 jobs:
   build:
@@ -20,7 +24,7 @@ jobs:
         dotnet-version: 6.x
         
     - name: Restore
-      run: dotnet restore $env:SolutionName
+      run: dotnet restore ${{ inputs.solutionFile }}
       
     - name: Build
-      run: dotnet build $env:SolutionName -c Release --nologo --no-restore
+      run: dotnet build ${{ inputs.solutionFile }} -c Release --nologo --no-restore
