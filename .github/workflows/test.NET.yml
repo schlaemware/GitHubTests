@@ -22,6 +22,11 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.x
+        
+    - name: Download artifacts
+      uses: actions/download-artifact@v3
+      #with:
+        #name: BuildArtifacts
 
     - name: Test
       run: dotnet test ${{ inputs.solutionFile }} -c Release --nologo --no-build --verbosity normal
