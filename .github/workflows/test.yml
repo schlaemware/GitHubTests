@@ -30,5 +30,15 @@ jobs:
       with:
         dotnet-version: ${{ inputs.dotnetVersion }}
 
+    - uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget
+          
+    - name: Restore
+      run: dotnet restore ${{ inputs.solutionFile }}
+      
     - name: Test
-      run: dotnet test ${{ inputs.solutionFile }} -c ${{ inputs.configuration }} -v normal --results-directory Results
+      run: dotnet test ${{ inputs.solutionFile }} -c ${{ inputs.configuration }} -v normal --results-directory Results --no-restore
