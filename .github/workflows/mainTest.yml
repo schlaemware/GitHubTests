@@ -1,0 +1,22 @@
+# This workflow will build a .NET solution
+name: MainTest
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "master", "develop" ]
+      
+jobs:      
+  call-test-workflow:
+    name: Test
+    uses: ./.github/workflows/test.yml
+    strategy:
+      matrix:
+        dotnet: [ "6.0", "7.0" ]
+        configuration: [ "Release" ]
+    secrets: inherit
+    with:
+      dotnetVersion: ${{ matrix.dotnet }}
+      configuration: ${{ matrix.configuration }}
+      solutionFile: "Solution/TestSolution.sln"
