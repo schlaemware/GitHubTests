@@ -17,18 +17,16 @@ jobs:
     uses: ./.github/workflows/build.NET.yml
     secrets: inherit
     with:
-      solutionFile: ${{ env.SolutionFile }}
+      solutionFile: "Solution/TestSolution.sln"
 
   call-test-workflow:
     needs: call-build-workflow
     uses: ./.github/workflows/test.NET.yml
     secrets: inherit
     with:
-      solutionFile: ${{ env.SolutionFile }}
+      solutionFile: "Solution/TestSolution.sln"
 
   call-deploy-workflow:
     needs: call-test-workflow
     uses: ./.github/workflows/deploy.NET.yml
     secrets: inherit
-    with:
-      solutionFile: ${{ env.SolutionFile }}

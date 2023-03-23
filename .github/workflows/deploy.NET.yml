@@ -4,10 +4,6 @@ name: Deploy .NET
 
 on:
   workflow_call:
-    inputs:
-      solutionFile:
-        required: true
-        type: string
       
 jobs:
   deploy:
@@ -16,4 +12,4 @@ jobs:
     
     steps:      
     - name: Deploy
-      run: echo 'Prouduction deployment of ${{ inputs.solutionFile }}...'
+      run: echo 'Prouduction deployment...'
