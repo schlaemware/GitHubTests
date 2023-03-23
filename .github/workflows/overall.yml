@@ -7,27 +7,13 @@ on:
     branches: [ "develop" ]
   pull_request:
     branches: [ "master", "develop" ]
-
-env:
-  SolutionFile: "Solution/TestSolution.sln"
       
 jobs:      
-  call-build-workflow:
-    name: Build
-    uses: ./.github/workflows/build.NET.yml
+  call-build-n-test-workflow:
+    name: Build & Test
+    uses: ./.github/workflows/build&test.net.yml
     secrets: inherit
     with:
       solutionFile: "Solution/TestSolution.sln"
-  
-  #call-test-workflow:
-    #name: Test
-    #uses: ./.github/workflows/test.NET.yml
-    #secrets: inherit
-    #with:
-      #solutionFile: "Solution/TestSolution.sln"
-
-  call-deploy-workflow:
-    name: Deploy
-    needs: call-build-workflow
-    uses: ./.github/workflows/deploy.NET.yml
-    secrets: inherit
+      dotnetVersion: "6.0"
+      configuration: "Release"
