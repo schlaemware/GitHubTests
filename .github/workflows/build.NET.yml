@@ -1,0 +1,26 @@
+# This workflow will build a .NET solution
+
+name: Build .NET
+
+on:
+  workflow_call:
+      
+jobs:
+  build:
+    name: Build .NET
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+            
+    - name: Setup
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.x
+        
+    - name: Restore
+      run: dotnet restore $env:SolutionName
+      
+    - name: Build
+      run: dotnet build $env:SolutionName -c Release --nologo --no-restore

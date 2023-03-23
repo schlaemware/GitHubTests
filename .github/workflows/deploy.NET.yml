@@ -4,9 +4,6 @@ name: Deploy .NET
 
 on:
   workflow_call:
-
-env:
-  SolutionName: "Solution/TestSolution.sln"
       
 jobs:
   work:
