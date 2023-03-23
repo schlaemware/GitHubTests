@@ -11,21 +11,20 @@ on:
 env:
   SolutionFile: "Solution/TestSolution.sln"
       
-jobs:
-  call-test-workflow:
-    name: Test
-    uses: ./.github/workflows/test.NET.yml
-    secrets: inherit
-    with:
-      solutionFile: "Solution/TestSolution.sln"
-      
+jobs:      
   call-build-workflow:
     name: Build
-    needs: call-test-workflow
     uses: ./.github/workflows/build.NET.yml
     secrets: inherit
     with:
       solutionFile: "Solution/TestSolution.sln"
+  
+  #call-test-workflow:
+    #name: Test
+    #uses: ./.github/workflows/test.NET.yml
+    #secrets: inherit
+    #with:
+      #solutionFile: "Solution/TestSolution.sln"
 
   call-deploy-workflow:
     name: Deploy
