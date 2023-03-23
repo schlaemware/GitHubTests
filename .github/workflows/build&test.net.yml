@@ -1,5 +1,5 @@
 # This workflow
-name: Build & Test (.NET)
+name: Test (.NET)
 
 on:
   workflow_call:
@@ -16,8 +16,8 @@ on:
         default: Release
 
 jobs:
-  build:
-    name: Build (.NET)
+  test:
+    name: Test
     runs-on: windows-latest
     
     steps:
