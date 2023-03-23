@@ -29,4 +29,4 @@ jobs:
         name: Build
 
     - name: Test
-      run: dotnet test ./Build/*.Test.dll --nologo --no-build --verbosity normal --results-directory Results
+      run: dotnet test 'Build/*.Test.dll'
