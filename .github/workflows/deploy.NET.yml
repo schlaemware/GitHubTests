@@ -1,0 +1,18 @@
+# This workflow will deploy a .NET project
+
+name: Deploy .NET
+
+on:
+  workflow_call:
+
+env:
+  SolutionName: "Solution/TestSolution.sln"
+      
+jobs:
+  work:
+    name: Deploy .NET
+    runs-on: windows-latest
+    
+    steps:      
+    - name: Deploy
+      run: echo 'Prouduction deployment...'

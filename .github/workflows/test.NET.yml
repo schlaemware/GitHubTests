@@ -1,0 +1,15 @@
+# This workflow will test a .NET solution
+
+name: Test .NET
+
+on:
+  workflow_call:
+      
+jobs:
+  build:
+    name: Test .NET
+    runs-on: windows-latest
+
+    steps:    
+    - name: Test
+      run: dotnet test $env:SolutionName -c Release --nologo --no-build --verbosity normal
