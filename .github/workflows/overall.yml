@@ -9,11 +9,15 @@ on:
     branches: [ "master", "develop" ]
       
 jobs:      
-  call-build-n-test-workflow:
-    name: Build & Test
-    uses: ./.github/workflows/build&test.net.yml
+  call-test-workflow:
+    name: Test
+    uses: ./.github/workflows/test.net.yml
+    strategy:
+      matrix:
+        dotnet: [ "6.0", "7.0" ]
+        configuration: [ "Release" ]
     secrets: inherit
     with:
       solutionFile: "Solution/TestSolution.sln"
-      dotnetVersion: "6.0"
-      configuration: "Release"
+      dotnetVersion: ${{ matrix.dotnet }}
+      configuration: ${{ matrix.configuration }}
