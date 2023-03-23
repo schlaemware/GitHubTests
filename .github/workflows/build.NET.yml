@@ -1,6 +1,6 @@
-# This workflow will test a .NET solution
+# This workflow will build a .NET solution
 
-name: Test .NET
+name: Build .NET
 
 on:
   workflow_call:
@@ -10,9 +10,12 @@ on:
         type: string
       
 jobs:
-  test:
-    name: Test .NET
+  build:
+    name: Build .NET
     runs-on: windows-latest
+
+    outputs:
+      compile:
 
     steps:
     - name: Checkout
@@ -22,6 +25,9 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.x
-
-    - name: Test
-      run: dotnet test ${{ inputs.solutionFile }} -c Release --nologo --no-build --verbosity normal
+        
+    - name: Restore
+      run: dotnet restore ${{ inputs.solutionFile }}
+      
+    - name: Build
+      run: dotnet build ${{ inputs.solutionFile }} -c Release --nologo --no-restore
