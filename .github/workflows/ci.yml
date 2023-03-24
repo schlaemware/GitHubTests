@@ -45,8 +45,11 @@ jobs:
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.3.1
   
-    - name: Test Domain
+    - name: Test
       run: dotnet test $env:TestProjectPath -c $env:Configuration
+      
+    - name: Build Application
+      run: msbuild $env:ApplicationProjectPath /p:Platform=$env:TargetPlatform /p:Configuration=$env:Configuration
     
     - name: Restore Application
       run: msbuild $env:SolutionPath /t:Restore /p:Configuration=$env:Configuration /p:RuntimeIdentifier=$env:RuntimeIdentifier
