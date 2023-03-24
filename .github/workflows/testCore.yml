@@ -38,7 +38,7 @@ jobs:
           ${{ runner.os }}-nuget
           
     - name: Restore
-      run: dotnet restore ${{ inputs.solutionFile }}
+      run: dotnet restore ${{ inputs.projectFile }}
       
     - name: Test
       run: dotnet test ${{ inputs.projectFile }} -c ${{ inputs.configuration }} -v normal --results-directory Results --no-restore
