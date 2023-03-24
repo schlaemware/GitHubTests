@@ -1,22 +1,23 @@
 # This workflow will build a .NET solution
-name: MainTest
+name: Test orchestrator
 
 on:
   push:
     branches: [ "develop" ]
   pull_request_target:
     branches: [ "master", "develop" ]
-  schedule:
-    - cron: '30 * * * *' 
       
 jobs:      
   call-test-workflow:
     name: Test
-    uses: ./.github/workflows/test.yml
+    uses: ./.github/workflows/testCore.yml
     strategy:
       matrix:
         dotnet: [ "6.0", "7.0" ]
         configuration: [ "Release" ]
+        testFiles: [
+          "Solution/Domain.Test/Domain.Test.csproj"
+        ]
     secrets: inherit
     with:
       dotnetVersion: ${{ matrix.dotnet }}

@@ -12,7 +12,7 @@ on:
         required: true
         type: string
         default: "Release"
-      solutionFile:
+      projectFile:
         required: true
         type: string
       
@@ -41,4 +41,4 @@ jobs:
       run: dotnet restore ${{ inputs.solutionFile }}
       
     - name: Test
-      run: dotnet test ${{ inputs.solutionFile }} -c ${{ inputs.configuration }} -v normal --results-directory Results --no-restore
+      run: dotnet test ${{ inputs.projectFile }} -c ${{ inputs.configuration }} -v normal --results-directory Results --no-restore
