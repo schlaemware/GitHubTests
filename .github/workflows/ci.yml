@@ -1,0 +1,77 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT license.
+
+# This continuous integration pipeline is triggered anytime a user pushes code to the repo.
+# This pipeline builds the Wpf project, runs unit tests, then saves the MSIX build artifact.
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - 'master'
+      - 'develop'
+  pull_request_target:
+    branches:
+      - 'master'
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        dotnetVersion: [ '6.0' ]
+        targetplatform: [ 'x64' ]
+    
+    runs-on: windows-latest
+    
+    env:
+      ApplicationProjectPath: Solution\PackagedTestApp\PackagedTestApp\PackagedTestApp.csproj
+      AppPackagesDirectory: AppPackages
+      Configuration: Release
+      SigningCertificate: GitHubActionsDemo.pfx
+      SolutionPath: Solution\TestSolution.sln
+      TestProjectPath: Solution\Domain.Test\Domain.Test.csproj
+      WapProjectDirectory: Solution\PackagedTestApp\PackagedTestApp (Package)
+      WapProjectPath: Solution\PackagedTestApp\PackagedTestApp (Package)\PackagedTestApp (Package).wapproj
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ matrix.dotnetVersion }}
+        
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.3.1
+  
+    - name: Test Domain
+      run: dotnet test $env:TestProjectPath -c $env:Configuration
+    
+    - name: Restore Application
+      run: msbuild $env:SolutionPath /t:Restore /p:Configuration=$env:Configuration /p:RuntimeIdentifier=$env:RuntimeIdentifier
+      env:
+        RuntimeIdentifier: win-${{ matrix.targetplatform }}
+
+    - name: Decode PFX
+      run: |
+        $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.Base64_Encoded_Pfx }}")
+        $currentDirectory = Get-Location
+        $certificatePath = Join-Path -Path $currentDirectory -ChildPath $env:WapProjectDirectory -AdditionalChildPath $env:SigningCertificate
+        [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
+    
+    - name: Build package
+      run: msbuild $env:SolutionPath /p:Platform=$env:TargetPlatform /p:Configuration=$env:Configuration /p:UapAppxPackageBuildMode=$env:BuildMode /p:AppxBundle=$env:AppxBundle /p:PackageCertificateKeyFile=$env:SigningCertificate /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
+      env:
+        AppxBundle: Never
+        BuildMode: SideloadOnly
+        TargetPlatform: ${{ matrix.targetplatform }}
+        
+    - name: Remove PFX
+      run: Remove-Item -path $env:WapProjectDirectory/$env:SigningCertificate
+      
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3.1.2
+      with:
+        name: MSIX Package
+        path: ${{ env.WapProjectDirectory }}\${{ env.AppPackagesDirectory }}
