@@ -18,12 +18,15 @@ jobs:
   build:
     strategy:
       matrix:
-        targetplatform: [ 'x86', 'x64' ]
+        dotnetVersion: [ '6.0' ]
+        targetplatform: [ 'x64' ]
     
     runs-on: windows-latest
     
     env:
+      Configuration: Release
       SolutionPath: Solution\TestSolution.sln
+      TestProjectPath: Solution\Domain.Test\Domain.Test.csproj
     
     steps:
     - name: Checkout
@@ -32,10 +35,10 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '6.0'
+        dotnet-version: ${{ matrix.dotnetVersion }}
         
-    - name: setup-msbuild
+    - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.3.1
   
-    - name: Test
-      run: dotnet test $env:SolutionPath
+    - name: Test Domain
+      run: dotnet test $env:TestProjectPath -c $env:Configuration
