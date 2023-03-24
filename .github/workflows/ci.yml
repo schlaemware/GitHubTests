@@ -24,9 +24,12 @@ jobs:
     runs-on: windows-latest
     
     env:
+      ApplicationProjectPath: Solution\PackagedTestApp\PackagedTestApp\PackagedTestApp.csproj
+      AppPackagesDirectory: AppPackages
       Configuration: Release
       SolutionPath: Solution\TestSolution.sln
       TestProjectPath: Solution\Domain.Test\Domain.Test.csproj
+      WapProjectPath: Solution\PackagedTestApp\PackagedTestApp (Package)\PackagedTestApp (Package).wapproj
     
     steps:
     - name: Checkout
@@ -42,3 +45,8 @@ jobs:
   
     - name: Test Domain
       run: dotnet test $env:TestProjectPath -c $env:Configuration
+    
+    - name: Restore application
+      run: msbuild $env:SolutionPath /t:Restore /p:Configuration=$env:Configuration /p:RuntimeIdentifier=$env:RuntimeIdentifier
+      env:
+        RuntimeIdentifier: win10-${{ matrix.targetplatform }}
