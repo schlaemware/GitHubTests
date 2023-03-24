@@ -61,34 +61,36 @@ jobs:
       env:
         RuntimeIdentifier: win-${{ matrix.targetplatform }}
 
-    - name: Decode PFX
-      run: |
-        $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.Base64_Encoded_Pfx }}")
-        $currentDirectory = Get-Location
-        $certificatePath = $env:SigningCertificate
-        echo $certificatePath
-        [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
-        $certificatePath = Join-Path -Path $currentDirectory -ChildPath $env:SigningCertificate
-        echo $certificatePath
-        [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
-        $certificatePath = Join-Path -Path Solution -ChildPath $env:SigningCertificate
-        echo $certificatePath
-        [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
-        $certificatePath = Join-Path -Path Solution\PackagedTestApp -ChildPath $env:SigningCertificate
-        echo $certificatePath
-        [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
-        $certificatePath = Join-Path -Path $env:WapProjectDirectory -ChildPath $env:SigningCertificate
-        echo $certificatePath
-        [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
+    #- name: Decode PFX
+      #run: |
+        #$pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.Base64_Encoded_Pfx }}")
+        #$currentDirectory = Get-Location
+        #$certificatePath = $env:SigningCertificate
+        #echo $certificatePath
+        #[IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
+        #$certificatePath = Join-Path -Path $currentDirectory -ChildPath $env:SigningCertificate
+        #echo $certificatePath
+        #[IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
+        #$certificatePath = Join-Path -Path Solution -ChildPath $env:SigningCertificate
+        #echo $certificatePath
+        #[IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
+        #$certificatePath = Join-Path -Path Solution\PackagedTestApp -ChildPath $env:SigningCertificate
+        #echo $certificatePath
+        #[IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
+        #$certificatePath = Join-Path -Path $env:WapProjectDirectory -ChildPath $env:SigningCertificate
+        #echo $certificatePath
+        #[IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
     
-    - name: Decode PFX (Bash)
+    - name: Decode PFX
       run: |
         echo $CERTIFICATE_BASE64 | base64 --decode > $env:SigningCertificate
       shell: bash
+      env:
+          CERTIFICATE_BASE64: ${{ secrets.BASE64_ENCODE_PFX }}
     
     - name: Build package
       #run: msbuild $env:WapProjectPath /p:Configuration=$env:Configuration /p:Platform=$env:TargetPlatform /p:UapAppxPackageBuildMode=$env:BuildMode /p:AppxBundle=$env:AppxBundle /p:PackageCertificateKeyFile=$env:SigningCertificate /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
-      run: msbuild $env:SolutionPath /p:Configuration=$env:Configuration /p:Platform=$env:TargetPlatform /p:PackageCertificateKeyFile=$env:SigningCertificate /p:PackageCertificatePassword=${{ secrets.Pfx_Key }} -verbosity:minimal
+      run: msbuild $env:SolutionPath /p:Configuration=$env:Configuration /p:Platform=$env:TargetPlatform /p:PackageCertificateKeyFile=$env:SigningCertificate /p:PackageCertificatePassword=${{ secrets.PFX_KEY }} -verbosity:minimal
       env:
         #AppxBundle: Always
         #BuildMode: SideloadOnly
