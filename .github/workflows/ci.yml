@@ -22,11 +22,20 @@ jobs:
     
     runs-on: windows-latest
     
+    env:
+      SolutionPath: Solution\TestSolution.sln
+    
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet_version: '6.x'
+        dotnet-version: '6.0'
         
     - name: setup-msbuild
       uses: microsoft/setup-msbuild@v1.3.1
+  
+    - name: Test
+      run: dotnet test $env:SolutionPath
