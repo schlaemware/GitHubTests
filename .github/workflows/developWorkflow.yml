@@ -17,3 +17,9 @@ jobs:
     name: Build
     uses: ./.github/workflows/buildOrchestrator.yml
     secrets: inherit
+
+  call-deploy-workflow:
+    name: Deploy
+    uses: ./.github/workflows/deployOrchestrator.yml
+    needs: [ call-test-workflow, call-build-workflow ]
+    secrets: inherit
