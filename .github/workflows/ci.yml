@@ -51,7 +51,7 @@ jobs:
     - name: Restore Application
       run: msbuild $env:SolutionPath /t:Restore /p:Configuration=$env:Configuration /p:RuntimeIdentifier=$env:RuntimeIdentifier
       env:
-        RuntimeIdentifier: win10-${{ matrix.targetplatform }}
+        RuntimeIdentifier: win-${{ matrix.targetplatform }}
 
     - name: Decode PFX
       run: |
