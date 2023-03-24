@@ -1,0 +1,19 @@
+# This workflow will build a .NET solution
+name: Develop
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request_target:
+    branches: [ "master", "develop" ]
+      
+jobs:      
+  call-test-workflow:
+    name: Test
+    uses: ./.github/workflows/testOrchestrator.yml
+    secrets: inherit
+
+  call-build-workflow:
+    name: Build
+    uses: ./.github/workflows/buildOrchestrator.yml
+    secrets: inherit

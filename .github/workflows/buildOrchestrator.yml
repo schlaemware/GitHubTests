@@ -1,22 +1,23 @@
 # This workflow will build a .NET solution
-name: Test orchestrator
+name: Build orchestrator
 
 on:
   workflow_call:
-  
+
 jobs:      
   call-test-workflow:
-    name: Test
-    uses: ./.github/workflows/testCore.yml
+    name: Build
+    uses: ./.github/workflows/buildCore.yml
     strategy:
       matrix:
         dotnet: [ "6.0", "7.0" ]
         configuration: [ "Release" ]
-        testProjectFile: [
-          "Solution/Domain.Test/Domain.Test.csproj"
+        projectFile: [
+          "Solution/PackagedTestApp/PackagedTestApp/PackagedTestApp.csproj",
+          "Solution/WpfTestApp/WpfTestApp.csproj"
         ]
     secrets: inherit
     with:
       dotnetVersion: ${{ matrix.dotnet }}
       configuration: ${{ matrix.configuration }}
-      projectFile: ${{ matrix.testProjectFile }}
+      projectFile: ${{ matrix.projectFile }}
