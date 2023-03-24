@@ -41,6 +41,14 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ matrix.dotnetVersion }}
+      
+    - name: Decode PFX
+      run: |
+        $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.Base64_Encoded_Pfx }}")
+        $certificatePath = Join-Path -Path $env:WapProjectDirectory -ChildPath $env:SigningCertificate
+        echo $certificatePath
+        echo $pfx_cert_byte
+        [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
         
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.3.1
@@ -65,6 +73,8 @@ jobs:
       run: |
         $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.Base64_Encoded_Pfx }}")
         $certificatePath = Join-Path -Path $env:WapProjectDirectory -ChildPath $env:SigningCertificate
+        echo $certificatePath
+        echo $pfx_cert_byte
         [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
     
     - name: Build package
