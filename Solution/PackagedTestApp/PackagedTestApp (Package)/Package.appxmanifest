@@ -9,7 +9,7 @@
   <Identity
     Name="496fc9e2-c111-4114-ba4f-4a0795575f52"
     Publisher="CN=Schlæmware"
-    Version="0.0.8.0" />
+    Version="0.0.10.0" />
 
   <Properties>
     <DisplayName>PackagedTestApp</DisplayName>

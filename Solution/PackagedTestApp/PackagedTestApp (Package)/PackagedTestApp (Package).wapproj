@@ -31,12 +31,12 @@
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <EntryPointProjectUniqueName>..\PackagedTestApp\PackagedTestApp.csproj</EntryPointProjectUniqueName>
     <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
-    <PackageCertificateThumbprint>05ACEFF99394D9FC3A6806A6BE61BA2811542622</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>44CBAE4294918C70EF7CE6717786C1863E391667</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA512</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
-    <AppInstallerUri>https://packagedtestapp202303231550.azurewebsites.net</AppInstallerUri>
+    <AppInstallerUri>https://schlaemware.ch/Test</AppInstallerUri>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
