@@ -2,10 +2,11 @@
 name: Develop
 
 on:
-  push:
-    branches: [ "develop" ]
-  pull_request_target:
-    branches: [ "master", "develop" ]
+  workflow_call:
+  #push:
+    #branches: [ "develop" ]
+  #pull_request_target:
+    #branches: [ "master", "develop" ]
       
 jobs:      
   call-test-workflow:
