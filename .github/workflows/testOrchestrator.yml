@@ -15,11 +15,11 @@ jobs:
       matrix:
         dotnet: [ "6.0", "7.0" ]
         configuration: [ "Release" ]
-        testFiles: [
+        testProjectFile: [
           "Solution/Domain.Test/Domain.Test.csproj"
         ]
     secrets: inherit
     with:
       dotnetVersion: ${{ matrix.dotnet }}
       configuration: ${{ matrix.configuration }}
-      solutionFile: "Solution/TestSolution.sln"
+      projectFile: ${{ matrix.testProjectFile }}
