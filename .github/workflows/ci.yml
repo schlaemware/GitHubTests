@@ -50,6 +50,8 @@ jobs:
       
     - name: Build Application
       run: msbuild $env:ApplicationProjectPath /p:Platform=$env:TargetPlatform /p:Configuration=$env:Configuration
+      env:
+        TargetPlatform: ${{ matrix.targetplatform }}
     
     - name: Restore Application
       run: msbuild $env:SolutionPath /t:Restore /p:Configuration=$env:Configuration /p:RuntimeIdentifier=$env:RuntimeIdentifier
