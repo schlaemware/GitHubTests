@@ -59,11 +59,13 @@ jobs:
         TargetPlatform: ${{ matrix.targetplatform }}
     
     - name: Restore Application
+      if: github.ref == 'refs/heads/master'
       run: msbuild $env:SolutionPath /t:Restore /p:Configuration=$env:Configuration /p:RuntimeIdentifier=$env:RuntimeIdentifier -verbosity:minimal
       env:
         RuntimeIdentifier: win-${{ matrix.targetplatform }}
 
     - name: Decode PFX
+      if: github.ref == 'refs/heads/master'
       run: |
         $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.BASE64_ENCODE_PFX }}")
         $currentDirectory = Get-Location
@@ -71,6 +73,7 @@ jobs:
         [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
     
     - name: Build package
+      if: github.ref == 'refs/heads/master'
       run: msbuild $env:SolutionPath /p:Configuration=$env:Configuration /p:Platform=$env:TargetPlatform /p:UapAppxPackageBuildMode=$env:BuildMode /p:AppxBundle=$env:AppxBundle /p:PackageCertificateKeyFile=$env:SigningCertificate /p:PackageCertificatePassword=${{ secrets.PFX_KEY }} -verbosity:minimal
       env:
         AppxBundle: Always
@@ -78,11 +81,13 @@ jobs:
         TargetPlatform: ${{ matrix.targetplatform }}
         
     - name: Remove PFX
+      if: github.ref == 'refs/heads/master'
       run: |
         $certificatePath = Join-Path -Path $env:WapProjectDirectory -ChildPath $env:SigningCertificate
         Remove-Item -Path $certificatePath
       
     - name: Upload build artifacts
+      if: github.ref == 'refs/heads/master'
       uses: actions/upload-artifact@v3.1.2
       with:
         name: MSIX Package
