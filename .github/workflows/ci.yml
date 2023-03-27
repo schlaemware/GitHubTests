@@ -6,9 +6,9 @@
 name: Continuous Integration
 
 on:
-  workflow_dispatch:
   push:
     branches:
+      - 'master'
       - 'develop'
   pull_request_target:
     branches:
@@ -37,10 +37,8 @@ jobs:
       WapProjectPath: Solution\PackagedTestApp\PackagedTestApp (Package)\PackagedTestApp (Package).wapproj
     
     steps:
-    - name: Initialize
-      uses: ./.github/workflows/ci.init.yml
-      with:
-        solutionFile: $env:SolutionPath
+    - name: Checkout
+      uses: actions/checkout@v3
       
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
@@ -60,8 +58,6 @@ jobs:
       run: msbuild $env:ApplicationProjectPath /p:Platform=$env:TargetPlatform /p:Configuration=$env:Configuration
       env:
         TargetPlatform: ${{ matrix.targetplatform }}
-    
-    # Der untere Teil kann entfernt werden...wird mit cd.yml abgedeckt -------------------------------------------------
     
     - name: Restore Application
       run: msbuild $env:SolutionPath /t:Restore /p:Configuration=$env:Configuration /p:RuntimeIdentifier=$env:RuntimeIdentifier
