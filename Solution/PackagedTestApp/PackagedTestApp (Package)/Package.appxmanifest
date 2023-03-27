@@ -7,14 +7,14 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="74b8a56e-ae46-4b3f-9477-fc6adae2330b"
-    Publisher="CN=MichaelS"
-    Version="1.0.0.0" />
+    Name="496fc9e2-c111-4114-ba4f-4a0795575f52"
+    Publisher="CN=Schlæmware"
+    Version="0.0.11.0" />
 
   <Properties>
-    <DisplayName>TestApp</DisplayName>
-    <PublisherDisplayName>MichaelS</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
+    <DisplayName>PackagedTestApp</DisplayName>
+    <PublisherDisplayName>Schlæmware</PublisherDisplayName>
+    <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 
   <Dependencies>
@@ -31,13 +31,13 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="TestApp"
-        Description="TestApp"
+        DisplayName="PackagedTestApp"
+        Description="PackagedTestApp description"
         BackgroundColor="transparent"
-        Square150x150Logo="Assets\Square150x150Logo.png"
-        Square44x44Logo="Assets\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        Square150x150Logo="Images\Square150x150Logo.png"
+        Square44x44Logo="Images\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
+        <uap:SplashScreen Image="Images\SplashScreen.png" />
       </uap:VisualElements>
     </Application>
   </Applications>
