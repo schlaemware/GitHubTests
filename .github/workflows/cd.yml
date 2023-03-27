@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         dotnetVersion: [ '6.0', '7.0' ]
-        targetplatform: [ 'x86', 'x64' ]
+        targetplatform: [ 'x86', 'x64', 'ARM64' ]
     
     runs-on: windows-latest
     
