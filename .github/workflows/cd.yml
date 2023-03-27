@@ -73,7 +73,7 @@ jobs:
       env:
         #AppxBundle: Always
         #BuildMode: SideloadOnly
-        TargetPlatform: ${{ matrix.targetplatform }}
+        TargetPlatform: 'x86|x64|ARM64'
         
     - name: Remove PFX
       run: |
