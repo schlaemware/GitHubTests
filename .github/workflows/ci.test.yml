@@ -34,10 +34,8 @@ jobs:
       WapProjectPath: Solution\PackagedTestApp\PackagedTestApp (Package)\PackagedTestApp (Package).wapproj
     
     steps:
-    - name: Initialize
-      uses: ./.github/workflows/ci.init.yml
-      with:
-        solutionFile: $env:SolutionPath
+    - name: Checkout
+      uses: actions/checkout@v3
       
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
