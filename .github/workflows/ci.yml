@@ -65,11 +65,7 @@ jobs:
       run: |
         $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.BASE64_ENCODE_PFX }}")
         $currentDirectory = Get-Location
-        $certificatePath = $env:SigningCertificate
-        echo $certificatePath
-        [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
-        $certificatePath = Join-Path -Path $currentDirectory -ChildPath $env:SigningCertificate
-        echo $certificatePath
+        $certificatePath = Join-Path -Path $env:WapProjectDirectory -ChildPath $env:SigningCertificate
         [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
     
     - name: Build package
