@@ -39,7 +39,10 @@ jobs:
     
     steps:
     - name: Print
-      run: echo 'Version ${{ vars.VERSIONMAJOR }}.${{ vars.VERSIONMINOR }}'
+      run: |
+        $revision = [System.Convert]::ToInt32("${{ vars.VERSIONREVISION }}") + 1
+        echo '$revision' >> vars.VERSIONREVISION
+        echo 'Version ${{ vars.VERSIONMAJOR }}.${{ vars.VERSIONMINOR }}.${{ vars.VERSIONFEATURE }}.${{ vars.VERSIONREVISION }}'
       
     - name: Checkout
       uses: actions/checkout@v3
