@@ -3,25 +3,20 @@
 
 # This continuous integration pipeline is triggered anytime a user pushes code to the repo.
 # This pipeline builds the Wpf project, runs unit tests, then saves the MSIX build artifact.
-name: Continuous Integration - Build
+name: Continuous Deployment
 
 on:
-  workflow_call:
-    inputs:
-      solutionFile:
-        required: true
-        type: string
-      artifactName:
-        required: true
-        type: string
-        default: BuildArtifacts
+  workflow_dispatch:
+  push:
+    branches:
+      - 'master'
 
 jobs:
   build:
     strategy:
       matrix:
-        dotnetVersion: [ '6.0' ]
-        targetplatform: [ 'x64' ]
+        dotnetVersion: [ '6.0', '7.0' ]
+        targetplatform: [ 'x86', 'x64' ]
     
     runs-on: windows-latest
     
@@ -36,8 +31,10 @@ jobs:
       WapProjectPath: Solution\PackagedTestApp\PackagedTestApp (Package)\PackagedTestApp (Package).wapproj
     
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+    - name: Initialize
+      uses: ./.github/workflows/ci.init.yml
+      with:
+        solutionFile: $env:SolutionPath
       
     - name: Setup .NET
       uses: actions/setup-dotnet@v3

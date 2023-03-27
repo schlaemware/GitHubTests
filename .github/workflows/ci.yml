@@ -6,20 +6,23 @@
 name: Continuous Integration
 
 on:
+  workflow_dispatch:
   push:
     branches:
-      - 'master'
       - 'develop'
   pull_request_target:
     branches:
       - 'master'
+      - 'develop'
+  schedule:
+    - cron: '0 0 * * *'
 
 jobs:
   build:
     strategy:
       matrix:
-        dotnetVersion: [ '6.0' ]
-        targetplatform: [ 'x64' ]
+        dotnetVersion: [ '6.0', '7.0' ]
+        targetplatform: [ 'x86', 'x64' ]
     
     runs-on: windows-latest
     
@@ -57,6 +60,8 @@ jobs:
       run: msbuild $env:ApplicationProjectPath /p:Platform=$env:TargetPlatform /p:Configuration=$env:Configuration
       env:
         TargetPlatform: ${{ matrix.targetplatform }}
+    
+    # Der untere Teil kann entfernt werden...wird mit cd.yml abgedeckt -------------------------------------------------
     
     - name: Restore Application
       run: msbuild $env:SolutionPath /t:Restore /p:Configuration=$env:Configuration /p:RuntimeIdentifier=$env:RuntimeIdentifier
