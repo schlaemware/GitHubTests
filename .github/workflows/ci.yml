@@ -38,6 +38,9 @@ jobs:
       WapProjectPath: Solution\PackagedTestApp\PackagedTestApp (Package)\PackagedTestApp (Package).wapproj
     
     steps:
+    - name: Print
+      run: echo 'Version ${{ vars.VERSIONMAJOR }}.${{ vars.VERSIONMINOR }}'
+      
     - name: Checkout
       uses: actions/checkout@v3
       
