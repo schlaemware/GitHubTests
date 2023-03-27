@@ -18,12 +18,7 @@ on:
     - cron: '0 0 * * *'
 
 jobs:
-  build:
-    strategy:
-      matrix:
-        dotnetVersion: [ '6.0', '7.0' ]
-        targetplatform: [ 'x86', 'x64', 'ARM64' ]
-    
+  build:    
     runs-on: windows-latest
     
     env:
@@ -42,8 +37,6 @@ jobs:
       
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: ${{ matrix.dotnetVersion }}
         
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.3.1
@@ -53,17 +46,30 @@ jobs:
       
     - name: Test
       run: dotnet test $env:TestProjectPath -c $env:Configuration --no-restore
-      
-    - name: Build Application
+    
+    # Build x86
+    - name: Build Application x86
       run: msbuild $env:ApplicationProjectPath /p:Platform=$env:TargetPlatform /p:Configuration=$env:Configuration
       env:
-        TargetPlatform: ${{ matrix.targetplatform }}
+        TargetPlatform: x86
     
-    - name: Restore Application
+    - name: Restore Application x86
       run: msbuild $env:SolutionPath /t:Restore /p:Configuration=$env:Configuration /p:RuntimeIdentifier=$env:RuntimeIdentifier
       env:
-        RuntimeIdentifier: win-${{ matrix.targetplatform }}
+        RuntimeIdentifier: win-x86
+    
+    # Build x64
+    - name: Build Application x64
+      run: msbuild $env:ApplicationProjectPath /p:Platform=$env:TargetPlatform /p:Configuration=$env:Configuration
+      env:
+        TargetPlatform: x64
+    
+    - name: Restore Application x64
+      run: msbuild $env:SolutionPath /t:Restore /p:Configuration=$env:Configuration /p:RuntimeIdentifier=$env:RuntimeIdentifier
+      env:
+        RuntimeIdentifier: win-x64
 
+    # Package
     - name: Decode PFX
       run: |
         $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.BASE64_ENCODE_PFX }}")
@@ -72,12 +78,12 @@ jobs:
         [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
     
     - name: Build package
-      #run: msbuild $env:WapProjectPath /p:Configuration=$env:Configuration /p:Platform=$env:TargetPlatform /p:UapAppxPackageBuildMode=$env:BuildMode /p:AppxBundle=$env:AppxBundle /p:PackageCertificateKeyFile=$env:SigningCertificate /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
-      run: msbuild $env:SolutionPath /p:Configuration=$env:Configuration /p:Platform=$env:TargetPlatform /p:PackageCertificateKeyFile=$env:SigningCertificate /p:PackageCertificatePassword=${{ secrets.PFX_KEY }} -verbosity:minimal
+      #run: msbuild $env:SolutionPath /p:Configuration=$env:Configuration /p:Platform=$env:TargetPlatform /p:UapAppxPackageBuildMode=$env:BuildMode /p:AppxBundle=$env:AppxBundle /p:PackageCertificateKeyFile=$env:SigningCertificate /p:PackageCertificatePassword=${{ secrets.Pfx_Key }} -verbosity:minimal
+      run: msbuild $env:SolutionPath /p:Configuration=$env:Configuration /p:Platform=$env:TargetPlatform /p:AppxBundle=$env:AppxBundle /p:PackageCertificateKeyFile=$env:SigningCertificate /p:PackageCertificatePassword=${{ secrets.PFX_KEY }} -verbosity:minimal
       env:
-        #AppxBundle: Always
+        AppxBundle: Always
         #BuildMode: SideloadOnly
-        TargetPlatform: 'x86|x64|ARM64'
+        TargetPlatform: 'x86|x64'
         
     - name: Remove PFX
       run: |
