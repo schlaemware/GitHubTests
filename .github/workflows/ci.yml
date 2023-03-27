@@ -77,7 +77,9 @@ jobs:
         TargetPlatform: ${{ matrix.targetplatform }}
         
     - name: Remove PFX
-      run: Remove-Item -path $env:WapProjectDirectory/$env:SigningCertificate
+      run: |
+        $certificatePath = Join-Path -Path $env:WapProjectDirectory -ChildPath $env:SigningCertificate
+        Remove-Item -Path $certificatePath
       
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3.1.2
